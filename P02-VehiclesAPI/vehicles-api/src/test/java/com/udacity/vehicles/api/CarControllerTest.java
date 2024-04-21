@@ -83,6 +83,18 @@ public class CarControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    public void updateCar() throws Exception {
+        Car car = getCar();
+        car.setId(1L);
+        car.getDetails().setModel("Cadillac");
+        mvc.perform(put("/cars/{id}", car.getId())
+                        .content(json.write(car).getJson())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
     private String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
